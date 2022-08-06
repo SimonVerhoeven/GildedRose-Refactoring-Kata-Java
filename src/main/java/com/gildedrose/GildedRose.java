@@ -27,6 +27,9 @@ class GildedRose {
 
             if (AGED_BRIE.equals(item.name)){
                 adjustQuality(item, 1);
+                if (willExpire) {
+                    adjustQuality(item, 1);
+                }
             }
 
             if (BACKSTAGE_PASSES.equals(item.name)) {
@@ -39,24 +42,15 @@ class GildedRose {
                 if (item.sellIn < 6) {
                     adjustQuality(item, 1);
                 }
+                if (willExpire) {
+                    adjustQuality(item, -item.quality);
+                }
             }
 
             if (!SULFURAS.equals(item.name)) {
                 item.sellIn = item.sellIn - 1;
             }
-
-            if (item.sellIn < 0) {
-                handleExpiration(item);
-            }
         });
-    }
-
-    private void handleExpiration(Item item) {
-        if (AGED_BRIE.equals(item.name)) {
-            adjustQuality(item, 1);
-        } else if (BACKSTAGE_PASSES.equals(item.name)) {
-            adjustQuality(item, -item.quality);
-        }
     }
 
     private int determineDegradation(Item item, boolean willExpire) {
