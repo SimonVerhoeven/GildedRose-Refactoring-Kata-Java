@@ -5,6 +5,7 @@ import java.util.Arrays;
 class GildedRose {
     private static final String AGED_BRIE = "Aged Brie";
     private static final String BACKSTAGE_PASSES = "Backstage passes to a TAFKAL80ETC concert";
+    private static final String CONJURED_ITEM_PREFIX = "Conjured ";
     private static final String SULFURAS = "Sulfuras, Hand of Ragnaros";
     private static final int MIN_ITEM_QUALITY = 0;
     private static final int MAX_COMMON_ITEM_QUALITY = 50;
@@ -16,9 +17,10 @@ class GildedRose {
 
     public void updateQuality() {
         Arrays.asList(items).forEach(item -> {
+            final int degradeAmount = determineDegradation(item);
             if (!item.name.equals(AGED_BRIE)  && !item.name.equals(BACKSTAGE_PASSES)) {
                 if (!item.name.equals(SULFURAS)) {
-                    adjustQuality(item, - 1);
+                    adjustQuality(item, degradeAmount);
                 }
             } else {
                 adjustQuality(item, 1);
@@ -42,7 +44,7 @@ class GildedRose {
                 if (!item.name.equals(AGED_BRIE)) {
                     if (!item.name.equals(BACKSTAGE_PASSES)) {
                         if (!item.name.equals(SULFURAS)) {
-                            adjustQuality(item, -1);
+                            adjustQuality(item, degradeAmount);
                         }
                     } else {
                         adjustQuality(item, -item.quality);
@@ -53,6 +55,10 @@ class GildedRose {
                 }
             }
         });
+    }
+
+    private int determineDegradation(Item item) {
+        return item.name.startsWith(CONJURED_ITEM_PREFIX) ? -2 : -1;
     }
 
     private void adjustQuality(Item item, int amount) {
