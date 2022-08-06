@@ -30,24 +30,28 @@ class GildedRose {
             }
 
             if (BACKSTAGE_PASSES.equals(item.name)) {
-                adjustQuality(item, 1);
-
-                if (item.sellIn < 11) {
-                    adjustQuality(item, 1);
-                }
-
-                if (item.sellIn < 6) {
-                    adjustQuality(item, 1);
-                }
-                if (willExpire) {
-                    adjustQuality(item, -item.quality);
-                }
+                adjustBackstageQuality(item, willExpire);
             }
 
             if (!SULFURAS.equals(item.name)) {
                 item.sellIn = item.sellIn - 1;
             }
         });
+    }
+
+    private void adjustBackstageQuality(Item item, boolean willExpire) {
+        adjustQuality(item, 1);
+
+        if (item.sellIn < 11) {
+            adjustQuality(item, 1);
+        }
+
+        if (item.sellIn < 6) {
+            adjustQuality(item, 1);
+        }
+        if (willExpire) {
+            adjustQuality(item, -item.quality);
+        }
     }
 
     private int determineDegradation(Item item, boolean willExpire) {
