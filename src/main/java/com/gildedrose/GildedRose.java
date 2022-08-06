@@ -17,7 +17,8 @@ class GildedRose {
 
     public void updateQuality() {
         Arrays.asList(items).forEach(item -> {
-            final int degradeAmount = determineDegradation(item);
+            final boolean willExpire = item.sellIn < 1;
+            final int degradeAmount = determineDegradation(item, willExpire);
             final boolean itemDegrades = !Arrays.asList(AGED_BRIE, BACKSTAGE_PASSES, SULFURAS).contains(item.name);
 
             if (itemDegrades) {
@@ -45,16 +46,12 @@ class GildedRose {
             }
 
             if (item.sellIn < 0) {
-                handleExpiration(item, itemDegrades, degradeAmount);
+                handleExpiration(item);
             }
         });
     }
 
-    private void handleExpiration(Item item, boolean itemDegrades, int degradeAmount) {
-        if (itemDegrades) {
-            adjustQuality(item, degradeAmount);
-        }
-        
+    private void handleExpiration(Item item) {
         if (AGED_BRIE.equals(item.name)) {
             adjustQuality(item, 1);
         } else if (BACKSTAGE_PASSES.equals(item.name)) {
@@ -62,8 +59,9 @@ class GildedRose {
         }
     }
 
-    private int determineDegradation(Item item) {
-        return item.name.startsWith(CONJURED_ITEM_PREFIX) ? -2 : -1;
+    private int determineDegradation(Item item, boolean willExpire) {
+        final int baseDegradation = item.name.startsWith(CONJURED_ITEM_PREFIX) ? -2 : -1;
+        return willExpire ? 2 * baseDegradation : baseDegradation;
     }
 
     private void adjustQuality(Item item, int amount) {
