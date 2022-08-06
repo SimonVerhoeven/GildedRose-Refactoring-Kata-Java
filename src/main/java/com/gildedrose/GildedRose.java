@@ -16,42 +16,45 @@ class GildedRose {
     }
 
     public void updateQuality() {
-        Arrays.asList(items).forEach(item -> {
-            final boolean willExpire = item.sellIn < 1;
-            final boolean itemDegrades = !Arrays.asList(AGED_BRIE, BACKSTAGE_PASSES, SULFURAS).contains(item.name);
-            final boolean hasToBeSold = !SULFURAS.equals(item.name);
+        Arrays.asList(items).forEach(this::manageItem);
+    }
 
-            if (itemDegrades) {
-                final int degradeAmount = determineDegradation(item, willExpire);
-                adjustQuality(item, degradeAmount);
-            }
+    private void manageItem(Item item) {
+        final boolean willExpire = item.sellIn < 1;
+        final boolean itemDegrades = !Arrays.asList(AGED_BRIE, BACKSTAGE_PASSES, SULFURAS).contains(item.name);
+        final boolean hasToBeSold = !SULFURAS.equals(item.name);
 
-            if (AGED_BRIE.equals(item.name)){
-                adjustQuality(item, willExpire ? 2 : 1);
-            }
+        if (itemDegrades) {
+            final int degradeAmount = determineDegradation(item, willExpire);
+            adjustQuality(item, degradeAmount);
+        }
 
-            if (BACKSTAGE_PASSES.equals(item.name)) {
-                adjustBackstageQuality(item, willExpire);
-            }
+        if (AGED_BRIE.equals(item.name)){
+            adjustQuality(item, willExpire ? 2 : 1);
+        }
 
-            if (hasToBeSold) {
-                item.sellIn = item.sellIn - 1;
-            }
-        });
+        if (BACKSTAGE_PASSES.equals(item.name)) {
+            adjustBackstageQuality(item, willExpire);
+        }
+
+        if (hasToBeSold) {
+            item.sellIn = item.sellIn - 1;
+        }
     }
 
     private void adjustBackstageQuality(Item item, boolean willExpire) {
-        adjustQuality(item, 1);
-
-        if (item.sellIn < 11) {
-            adjustQuality(item, 1);
-        }
-
-        if (item.sellIn < 6) {
-            adjustQuality(item, 1);
-        }
         if (willExpire) {
             adjustQuality(item, -item.quality);
+        } else {
+            adjustQuality(item, 1);
+
+            if (item.sellIn < 11) {
+                adjustQuality(item, 1);
+            }
+
+            if (item.sellIn < 6) {
+                adjustQuality(item, 1);
+            }
         }
     }
 
