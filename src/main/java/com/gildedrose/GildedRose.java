@@ -18,11 +18,13 @@ class GildedRose {
     public void updateQuality() {
         Arrays.asList(items).forEach(item -> {
             final int degradeAmount = determineDegradation(item);
-            if (!item.name.equals(AGED_BRIE)  && !item.name.equals(BACKSTAGE_PASSES)) {
-                if (!item.name.equals(SULFURAS)) {
-                    adjustQuality(item, degradeAmount);
-                }
-            } else {
+            final boolean itemDegrades = !Arrays.asList(AGED_BRIE, BACKSTAGE_PASSES, SULFURAS).contains(item.name);
+
+            if (itemDegrades) {
+                adjustQuality(item, degradeAmount);
+            }
+
+             if (BACKSTAGE_PASSES.equals(item.name) || AGED_BRIE.equals(item.name)){
                 adjustQuality(item, 1);
 
                 if (item.name.equals(BACKSTAGE_PASSES)) {
