@@ -19,6 +19,7 @@ class GildedRose {
         Arrays.asList(items).forEach(item -> {
             final boolean willExpire = item.sellIn < 1;
             final boolean itemDegrades = !Arrays.asList(AGED_BRIE, BACKSTAGE_PASSES, SULFURAS).contains(item.name);
+            final boolean hasToBeSold = !SULFURAS.equals(item.name);
 
             if (itemDegrades) {
                 final int degradeAmount = determineDegradation(item, willExpire);
@@ -33,7 +34,7 @@ class GildedRose {
                 adjustBackstageQuality(item, willExpire);
             }
 
-            if (!SULFURAS.equals(item.name)) {
+            if (hasToBeSold) {
                 item.sellIn = item.sellIn - 1;
             }
         });
