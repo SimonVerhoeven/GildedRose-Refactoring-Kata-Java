@@ -45,22 +45,20 @@ class GildedRose {
             }
 
             if (item.sellIn < 0) {
-                handleExpiration(item, degradeAmount);
+                handleExpiration(item, itemDegrades, degradeAmount);
             }
         });
     }
 
-    private void handleExpiration(Item item, int degradeAmount) {
+    private void handleExpiration(Item item, boolean itemDegrades, int degradeAmount) {
+        if (itemDegrades) {
+            adjustQuality(item, degradeAmount);
+        }
+        
         if (AGED_BRIE.equals(item.name)) {
             adjustQuality(item, 1);
-        } else {
-            if (!BACKSTAGE_PASSES.equals(item.name)) {
-                if (!SULFURAS.equals(item.name)) {
-                    adjustQuality(item, degradeAmount);
-                }
-            } else {
-                adjustQuality(item, -item.quality);
-            }
+        } else if (BACKSTAGE_PASSES.equals(item.name)) {
+            adjustQuality(item, -item.quality);
         }
     }
 
