@@ -18,10 +18,10 @@ class GildedRose {
     public void updateQuality() {
         Arrays.asList(items).forEach(item -> {
             final boolean willExpire = item.sellIn < 1;
-            final int degradeAmount = determineDegradation(item, willExpire);
             final boolean itemDegrades = !Arrays.asList(AGED_BRIE, BACKSTAGE_PASSES, SULFURAS).contains(item.name);
 
             if (itemDegrades) {
+                final int degradeAmount = determineDegradation(item, willExpire);
                 adjustQuality(item, degradeAmount);
             }
 
