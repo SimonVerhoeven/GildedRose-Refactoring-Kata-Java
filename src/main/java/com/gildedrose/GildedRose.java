@@ -64,10 +64,15 @@ class GildedRose {
     }
 
     private void adjustQuality(Item item, int amount) {
-        final int adjustedQuality = item.quality + amount;
-        if (adjustedQuality >= MIN_ITEM_QUALITY && adjustedQuality <= MAX_COMMON_ITEM_QUALITY) {
-            item.quality = adjustedQuality;
+        int adjustedQuality = item.quality + amount;
+
+        if (MIN_ITEM_QUALITY > adjustedQuality ) {
+            adjustedQuality = MIN_ITEM_QUALITY;
+        }  else if (MAX_COMMON_ITEM_QUALITY < adjustedQuality) {
+            adjustedQuality = MAX_COMMON_ITEM_QUALITY;
         }
+
+        item.quality = adjustedQuality;
     }
 
     public Item[] getItems() {

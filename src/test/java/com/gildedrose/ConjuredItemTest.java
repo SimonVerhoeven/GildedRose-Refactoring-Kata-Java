@@ -27,6 +27,13 @@ public class ConjuredItemTest {
         verifyItemStatistics(createItem(6, 0), gildedRose.getItems()[0]);
     }
 
+    @Test
+    public void updateQuality_minItemQuality_Uneven() {
+        GildedRose gildedRose = new GildedRose(createItem(7, 1));
+        gildedRose.updateQuality();
+        verifyItemStatistics(createItem(6, 0), gildedRose.getItems()[0]);
+    }
+
     private Item createItem(int sellIn, int quality) {
         return new Item("Conjured water", sellIn, quality);
     }

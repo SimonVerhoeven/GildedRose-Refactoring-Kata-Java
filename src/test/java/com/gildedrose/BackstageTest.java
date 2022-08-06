@@ -28,6 +28,13 @@ public class BackstageTest {
     }
 
     @Test
+    public void updateQuality_5OrLess_maximumQuality() {
+        GildedRose gildedRose = new GildedRose(createBackstageTicket(5, 49));
+        gildedRose.updateQuality();
+        verifyItemStatistics(createBackstageTicket(4, 50), gildedRose.getItems()[0]);
+    }
+
+    @Test
     public void updateQuality_expired() {
         GildedRose gildedRose = new GildedRose(createBackstageTicket(0, 42));
         gildedRose.updateQuality();
