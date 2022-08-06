@@ -26,10 +26,7 @@ class GildedRose {
             }
 
             if (AGED_BRIE.equals(item.name)){
-                adjustQuality(item, 1);
-                if (willExpire) {
-                    adjustQuality(item, 1);
-                }
+                adjustQuality(item, willExpire ? 2 : 1);
             }
 
             if (BACKSTAGE_PASSES.equals(item.name)) {
