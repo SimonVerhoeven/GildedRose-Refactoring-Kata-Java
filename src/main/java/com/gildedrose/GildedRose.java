@@ -18,23 +18,23 @@ class GildedRose {
                 && !item.name.equals(BACKSTAGE_PASSES)) {
                 if (item.quality > 0) {
                     if (!item.name.equals(SULFURAS)) {
-                        item.quality = item.quality - 1;
+                        adjustQuality(item, - 1);
                     }
                 }
             } else {
                 if (item.quality < 50) {
-                    item.quality = item.quality + 1;
+                    adjustQuality(item, 1);
 
                     if (item.name.equals(BACKSTAGE_PASSES)) {
                         if (item.sellIn < 11) {
                             if (item.quality < 50) {
-                                item.quality = item.quality + 1;
+                                adjustQuality(item, 1);
                             }
                         }
 
                         if (item.sellIn < 6) {
                             if (item.quality < 50) {
-                                item.quality = item.quality + 1;
+                                adjustQuality(item, 1);
                             }
                         }
                     }
@@ -50,19 +50,24 @@ class GildedRose {
                     if (!item.name.equals(BACKSTAGE_PASSES)) {
                         if (item.quality > 0) {
                             if (!item.name.equals(SULFURAS)) {
-                                item.quality = item.quality - 1;
+                                adjustQuality(item, -1);
                             }
                         }
                     } else {
-                        item.quality = item.quality - item.quality;
+                        adjustQuality(item, -item.quality);
+
                     }
                 } else {
                     if (item.quality < 50) {
-                        item.quality = item.quality + 1;
+                        adjustQuality(item, 1);
                     }
                 }
             }
         });
+    }
+
+    private void adjustQuality(Item item, int amount) {
+        item.quality = item.quality + amount;
     }
 
     public Item[] getItems() {
